@@ -1,0 +1,89 @@
+Timeline:
+
+Wednesday April 10th
+complete design document
+
+Friday April 12th
+complete Phase 1
+(implementation of retrieval system)
+
+Saturday-Sunday April 13th-14h
+complete Phase 2
+(implementation of snippet generation)
+complete Phase 3
+(implement evaluation)
+complete Extra Credit #2
+(implement fuzzy query)
+
+Saturday April 20th
+complete final report
+
+
+
+Phase 1
+
+Task 1:
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/similarities/LMJelinekMercerSimilarity.html
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/similarities/LMDirichletSimilarity.html
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/similarities/BM25Similarity.html
+
+http://maroo.cs.umass.edu/getpdf.php?id=694
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.58.8978&rep=rep1&type=pdf
+https://www.academia.edu/2788177/An_investigation_of_dirichlet_prior_smoothing_s_performance_advantage
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.165.8690&rep=rep1&type=pdf
+
+Task 2:
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/analysis/LowerCaseFilter.html
+https://lucene.apache.org/core/8_0_0/analyzers-common/org/apache/lucene/analysis/en/KStemFilter.html
+
+http://lexicalresearch.com/kstem-doc.txt
+http://ciir.cs.umass.edu/pubfiles/ir-35.pdf
+
+Task 3:
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/analysis/standard/StandardAnalyzer.html
+https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html?is-external=true
+
+
+Phase 2
+
+snippet generation and query term highlighting:
+http://lucene.apache.org/core/8_0_0/highlighter/org/apache/lucene/search/highlight/Highlighter.html
+http://lucene.apache.org/core/8_0_0/highlighter/org/apache/lucene/search/highlight/QueryScorer.html
+http://lucene.apache.org/core/8_0_0/highlighter/org/apache/lucene/search/highlight/SimpleHTMLFormatter.html
+
+
+Phase 3
+
+evaluation:
+https://lucene.apache.org/core/8_0_0/benchmark/org/apache/lucene/benchmark/quality/QualityBenchmark
+https://lucene.apache.org/core/8_0_0/benchmark/org/apache/lucene/benchmark/quality/QualityQuery.html
+https://lucene.apache.org/core/8_0_0/benchmark/org/apache/lucene/benchmark/quality/QualityQueryParser.html
+https://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/IndexSearcher.html
+https://lucene.apache.org/core/8_0_0/benchmark/org/apache/lucene/benchmark/quality/Judge.html
+https://lucene.apache.org/core/8_0_0/benchmark/org/apache/lucene/benchmark/quality/QualityStats.html
+
+
+Extra Credit #2
+
+http://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/FuzzyQuery.html
+
+Implements the fuzzy search query.
+The similarity measurement is based on the Damerau-Levenshtein (optimal string alignment) algorithm, though you can explicitly choose classic Levenshtein by passing false to the transpositions parameter.
+This query uses MultiTermQuery.TopTermsBlendedFreqScoringRewrite as default.
+So terms will be collected and scored according to their edit distance. Only the top terms are used for building the BooleanQuery.
+It is not recommended to change the rewrite mode for fuzzy queries.
+
+At most, this query will match terms up to 2 edits.
+Higher distances (especially with transpositions enabled), are generally not useful and will match a significant amount of the term dictionary.
+If you really want this, consider using an n-gram indexing technique (such as the SpellChecker in the suggest module) instead.
+
+NOTE: terms of length 1 or 2 will sometimes not match because of how the scaled distance between two terms is computed.
+For a term to match, the edit distance between the terms must be less than the minimum length term (either the input term, or the candidate term).
+For example, FuzzyQuery on term "abcd" with maxEdits=2 will not match an indexed term "ab", and FuzzyQuery on term "a" with maxEdits=2 will not match an indexed term "abc".
+
+https://people.cs.pitt.edu/~behrang/pubs/sigir2000.pdf
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.734.8675&rep=rep1&type=pdf
+
+
+https://nlp.stanford.edu/IR-book/html/htmledition/tf-idf-weighting-1.html
